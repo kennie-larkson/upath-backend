@@ -2,56 +2,66 @@ import { gql } from "apollo-server-express";
 
 export const mutations = gql`
   type Mutation {
-    createStudent(
-      firstName: String
-      lastName: String
-      username: String
+    createUser(
+      provider: String
+      providerId: String
+      profileImage: String
       email: String
-    ): CreateStudentResponse!
-
-    updateStudent(
-      id: ID!
-      firstName: String
-      lastName: String
+      password: String
       username: String
+    ): CreateUserResponse
+
+    # deleteUserById(userId: ID): DeleteUserResponse
+
+    # deleteUserByEmail(email: String): DeleteUserResponse
+
+    editUserById(
+      userId: ID
+      provider: String
+      providerId: String
+      profileImage: String
       email: String
-    ): UpdateStudentResponse!
-
-    deleteStudent(id: ID!): DeleteStudentResponse!
-
-    createCourse(
-      title: String
-      description: String
-      ratings: Float
-      instructor_id: Int
-    ): CreateCourseResponse!
-
-    updateCourse(
-      id: ID!
-      title: String
-      description: String
-      ratings: Float
-    ): UpdateCourseResponse!
-
-    deleteCourse(id: ID!): DeleteCourseResponse!
-
-    createStudentCourses(student_id: Int, course_id: Int): EnrollCourseResponse!
-
-    createInstructor(
-      firstName: String
-      lastName: String
+      password: String
       username: String
-      email: String
-    ): CreateInstructorResponse!
+    ): UpdateUserResponse
 
-    updateInstructor(
-      id: ID!
-      firstName: String
-      lastName: String
+    editUserByEmail(
+      userId: ID
+      provider: String
+      providerId: String
+      profileImage: String
+      email: String
+      password: String
       username: String
-      email: String
-    ): UpdateInstructorResponse!
+    ): UpdateUserResponse
 
-    deleteInstructor(id: ID!): DeleteInstructorResponse!
+    createProfile(
+      userId: ID
+      firstname: String
+      lastname: String
+      aboutMe: String
+      gender: String
+      phoneNumber: String
+      birthDate: Date
+      location: String
+      socialProfile: String
+      preferredLanguage: String
+    ): CreateProfileResponse
+
+    deleteProfileById(profileId: ID): DeleteProfileResponse
+
+    editProfileById(
+      userId: ID
+      profileId: ID
+      firstname: String
+      lastname: String
+      aboutMe: String
+      gender: String
+      phoneNumber: String
+      birthDate: Date
+      location: String
+      socialProfile: String
+      preferredLanguage: String
+    ): UpdateProfileResponse
   }
 `;

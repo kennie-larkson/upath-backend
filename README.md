@@ -1,199 +1,53 @@
-# Backend for Upath's self studying dashboard
-Backend API for Upath's self studying dashboard using the following technology stack: PostgresQL Database, GraphQL Apollo Server for API requests, Node Js Runtime and Express Backend Framework built using Typescript
+# Express-Graphql-Knex-PostgresSQL-server
+An Express with Graphql backend server, Knex and Postgres for the database
 
-# Production url
-The URL endpoint that was deployed to heroku is: 
+## Development setup
+A quick guide to setup the **sharpstudy** backend project on your local machine
 
-```bash
-https://upathorg-dashboard-backend.herokuapp.com/graphql
+Clone the repo ---> ```https://github.com/upathorg/Backend-in-Node-And-Database.git```
+
+Run ```yarn install``` OR simply ```yarn``` to install all in the dependencies in ```package.json``` file
+
+#### Setup environment variables
+Create a ```.env``` file and populate it with the below, generating your clientIDs from Google ```http://console.developers.google.com/``` , Linkedin ```https://www.linkedin.com/developers/```, Facebook ```https://developers.facebook.com/```
+``` as the case may be. Note: We use **Passport.js** for our simple authentication
+# Google ClientIDs and Secrets
+    googleClientID=
+    googleClientSecret=
+
+# JWT Secret
+    jwtSecret=sharpstudyupath
+
+# Linkedin ClientIDs and Secrets
+    linkedinClientID=
+    linkedinClientSecret=
+
+# Facebook ClientIDs and Secrets
+    facebookClientID=
+    facebookClientSecret=
 ```
 
-If you want to run it on your localhost, then follow the following commands below
-# Localhost setup
-```bash
-npm install
+#### Create your Postgresql Database
+**Install** and **Create** your postgres database locally, and name it **upathlearning**. Note: you can choose to name it whichever name you want, but make sure you give it that same name in your **knexfile.ts** file
+
+Start the database
+
+#### Run Migrations
+Migrate the tables schemas in the migrations folder to your locally created DB by running ```yarn knex migrate:latest```. This will create the tables and populate them with their respective schemas in the database. Visit **http://knexjs.org/** for more on Knex as a query builder
+
+#### Run the Server
+$ ```yarn dev```
+Go to graphql playground ---> **http://localhost:5000/graphql** on your browser
+
+You can choose to generate and use a jwt token for authorization on the playground's HTTP HEADERS, by launching **http://localhost:5000/auth/google** depending on the social auth you choose
+
+Copy the token and paste it in the playground's HTTP HEADERS like below
+
 ```
-This installs the npm dependencies in the package.json file
-
-```bash
-npm install -g nodemon
-```
-This installs nodemon globally (optional: for some users you need to add sudo before the npm install)
-
-# Database setup
-The databse created is hosted on heroku
-
-# Usage
-Run this command to start a development server using nodemon
-
-```bash
-npm run dev
-```
-This runs your local server.
-
-Enter the URL of the local server on your browser and enter this command on the graphiql client user interface to test if the app is working
-```bash
-
 {
-  students{
-    firstName
-    lastName
-    email
-    courses{
-      title
-      description
-    }
-  }
-}
-```
-If you see the output below, then this confirms the app is working
-```bash
-{
-  {
-  "data": {
-    "students": [
-      {
-        "firstName": "Tony",
-        "lastName": "Stark",
-        "email": "ironman@gmail.com",
-        "courses": [
-          {
-            "title": "Node Crash Course",
-            "description": "Web dev Backend"
-          },
-          {
-            "title": "GraphQL Apollo server course",
-            "description": "Backend web dev/API"
-          }
-        ]
-      },
-      {
-        "firstName": "Steve",
-        "lastName": "Rodgers",
-        "email": "captainamerica@gmail.com",
-        "courses": [
-          {
-            "title": "GraphQL Apollo server course",
-            "description": "Backend web dev/API"
-          }
-        ]
-      },
-      {
-        "firstName": "Thor",
-        "lastName": "Odinson",
-        "email": "godofthunder@gmail.com",
-        "courses": [
-          {
-            "title": "GraphQL Apollo server course",
-            "description": "Backend web dev/API"
-          },
-          {
-            "title": "Node Crash Course",
-            "description": "Web dev Backend"
-          }
-        ]
-      },
-      {
-        "firstName": "Doctor",
-        "lastName": "Strange",
-        "email": "drstrange@gmail.com",
-        "courses": []
-      }
-    ]
-  }
+  "authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsInByb3ZpZGVyIjoiZ29vZ2xlIiwicHJvdmlkZXJJZCI6IjE"
 }
 ```
 
-## Adding Data to the database table
-Enter the command below in the graphql test client
+OR you can choose to disable the ```context: verifyToken``` by commenting it out so you will not have to generate a token for testing endpoints on graphql
 
-```bash
-
- mutation {
-  createStudent(
-    firstName: "Peter"
-    lastName: "Parker"
-    username: "spiderman"
-    email: "spiderman@gmail.com"
-  ){
-    success
-    message
-    student{
-      firstName
-      lastName
-      email
-    }
-  }
-}
-```
-
-The following results should be returned
-```bash
-{
-  "data": {
-    "createStudent": {
-      "success": true,
-      "message": "student Created Successfully",
-      "student": {
-        "firstName": "Doctor",
-        "lastName": "Strange",
-        "email": "drstrange@gmail.com"
-      }
-    }
-  }
-}
-```
-
-## Updating Data in the database table
-Enter the command below in the graphql test client
-
-```bash
-
- mutation {
-  updateStudent(
-    id: 4
-    username: "spiderman_updated"
-    email: "spiderman@gmail.com"
-  ){
-    success
-    message
-    student{
-      firstName
-      lastName
-      email
-    }
-  }
-}
-```
-
-## Deleting Data from the database
-
-Enter the following command to delete data from the database
-```bash
-mutation {
-  deleteStudent(id: 2){
-    success
-    message
-    user{
-      id
-      firstName
-    }
-  }
-}
-```
-
-# Compilation
-
-When you are ready to compile your typescript project to Javascript, run this command
-```bash
-npm run build
-```
-This builds your project into dist folder
-
-# Test the final compiled files
-When you are ready to test the final compiled files, run this command
-```bash
-npm run start
-```
-
-### Note: The src folder contains the typescript files while the dist folder contains the compiled javascript files

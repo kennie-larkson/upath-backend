@@ -1,18 +1,13 @@
 import { gql } from "apollo-server-express";
 
 export const Query = gql`
- 
-  # All Database Queries and mutations
+  # All database queries
   type Query {
-    student(id: ID!): Student
-    students: [Student!]
-    course(id: ID!): Course
-    courses: [Course!]
-    instructor(id: ID!): Instructor
-    instructors: [Instructor]
+    userById(userId: ID): User
+    userByEmail(email: String): User
+    users: [User!]
+
+    profile(profileId: ID): Profile
+    profiles: [Profile!]
   }
-
 `;
-
-
-

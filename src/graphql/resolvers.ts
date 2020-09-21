@@ -1,12 +1,44 @@
-import { studentResolvers } from "./resolvers/studentResolvers";
-import { mutationResolvers } from "./resolvers/mutationResolvers";
-import { courseResolvers } from "./resolvers/courseResolvers";
-import { InstructorResolvers } from "./resolvers/instructorResolvers";
+import {
+  users,
+  userById,
+  userByEmail,
+  createUser,
+  /*
+  deleteUserById,
+  deleteUserByEmail,
+  */
+  editUserById,
+  editUserByEmail
+} from './resolvers/users/users';
+
+import {
+  profiles,
+  profile,
+  createProfile,
+  deleteProfileById,
+  editProfileById
+} from './resolvers/profiles/profiles'
 
 
-export const resolvers = [
-  studentResolvers,
-  mutationResolvers,
-  courseResolvers,
-  InstructorResolvers
-]
+export const resolvers = {
+  Query: {
+    users,
+    userById,
+    userByEmail,
+    profiles,
+    profile,
+  },
+
+  Mutation: {
+    createUser,
+    /*
+    deleteUserById,
+    deleteUserByEmail,
+    */
+    editUserById,
+    editUserByEmail,
+    createProfile,
+    deleteProfileById,
+    editProfileById
+  }
+};

@@ -1,34 +1,18 @@
-import { Query } from "./schemas/query";
-import {
-  CreateStudentResponse,
-  UpdateStudentResponse,
-  DeleteStudentResponse,
-  StudentType,
-} from "./schemas/studentType";
-import {
-  CreateCourseResponse,
-  UpdateCourseResponse,
-  DeleteCourseResponse,
-  EnrollCourseResponse,
-  CourseType,
-} from "./schemas/courseType";
-import { mutations } from "./schemas/mutations";
-import { InstructorType, CreateInstructorResponse, UpdateInstructorResponse, DeleteInstructorResponse } from "./schemas/instructorType";
+import { CreateUserResponse, User, UpdateUserResponse, /* DeleteUserResponse */ } from './schemas/users/users';
+import { CreateProfileResponse, Profile, UpdateProfileResponse, DeleteProfileResponse } from './schemas/profiles/profiles';
+import { mutations } from './schemas/mutations';
+import { Query } from './schemas/query';
 
 export const typeDefs = [
   Query,
-  StudentType,
-  CreateStudentResponse,
-  UpdateStudentResponse,
-  DeleteStudentResponse,
-  CourseType,
-  CreateCourseResponse,
-  UpdateCourseResponse,
-  DeleteCourseResponse,
-  EnrollCourseResponse,
-  InstructorType,
-  CreateInstructorResponse,
-  UpdateInstructorResponse,
-  DeleteInstructorResponse,
   mutations,
-];
+  User,
+  CreateUserResponse,
+  UpdateUserResponse,
+  // DeleteUserResponse,
+  Profile,
+  CreateProfileResponse,
+  UpdateProfileResponse,
+  DeleteProfileResponse
+
+]
