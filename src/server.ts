@@ -5,37 +5,45 @@ import cors from 'cors';
 import { ApolloServer } from 'apollo-server-express';
 import passport from 'passport';
 import 'dotenv/config';
-import 'knex'
+import 'knex';
 
 import { resolvers } from './graphql/resolvers';
 import { typeDefs } from './graphql/schema';
 import { GooglePassport } from './auth/googlePassport';
 import { LinkedinPassport } from './auth/linkedinPassport';
 import { tokenGenerator, verifyToken } from './auth/authHandlers';
+import { Signup, LocalPassport } from './auth/localPassport';
 
-
-
-GooglePassport
-LinkedinPassport
+GooglePassport;
+LinkedinPassport;
+LocalPassport;
 
 const app = express();
 
 app.use(helmet());
 app.use(logger('dev'));
 app.use(cors());
+app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.use(passport.initialize());
 
-app.get('/auth/google', passport.authenticate('google', {
-  session: false,
-  scope: ['profile', 'email']
-}));
+app.get(
+  "/auth/google",
+  passport.authenticate("google", {
+    session: false,
+    scope: ["profile", "email"],
+  })
+);
 
-app.get('/auth/google/redirect', passport.authenticate('google', {
-  session: false,
-  failureRedirect: '/',
-}), tokenGenerator);
+app.get(
+  "/auth/google/redirect",
+  passport.authenticate("google", {
+    session: false,
+    failureRedirect: "/",
+  }),
+  tokenGenerator
+);
 
 app.get('/auth/linkedin',passport.authenticate('linkedin',{
   session: false,
@@ -49,6 +57,9 @@ app.get('/auth/linkedin/redirect', passport.authenticate('linkedin', {
 }), tokenGenerator);
 
 
+app.post('/auth/signup', Signup);
+app.post('/auth/login', passport.authenticate('local',{session:false}), tokenGenerator);
+
 
 const apolloServer = new ApolloServer({
   typeDefs,
@@ -57,8 +68,7 @@ const apolloServer = new ApolloServer({
 
   context: verifyToken,
 
-  debug: false
-
+  debug: false,
 });
 
 apolloServer.applyMiddleware({ app, path: "/graphql" });
@@ -66,5 +76,7 @@ apolloServer.applyMiddleware({ app, path: "/graphql" });
 const port = process.env.PORT || 5000;
 
 app.listen(port, () =>
-  console.log(`\nGraphQL Server running on ---> http://localhost:${port}/graphql\n`)
-)
+  console.log(
+    `\nGraphQL Server running on ---> http://localhost:${port}/graphql\n`
+  )
+);

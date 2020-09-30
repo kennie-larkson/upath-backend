@@ -12,6 +12,7 @@ export const GooglePassport = [
   }, async (accessToken, refreshToken, profile, done) => {
     try {
       const currentUser = await UsersQueries.getUserByEmail(profile.emails[0].value)
+      
       if (currentUser) {
         const { lastLogin, email } = currentUser as any
         let newCurrentUser = await UsersQueries.updateUserLastLoginByEmail(email, lastLogin)

@@ -4,7 +4,7 @@
 export = {
   development: {
     client: "pg",
-    connection: 'postgres://localhost/my_sample_db',
+    connection:  'postgres://localhost/upathlearning',
     migrations: {
       directory: `${__dirname}/src/migrations`,
     },

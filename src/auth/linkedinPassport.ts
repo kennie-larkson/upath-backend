@@ -14,7 +14,6 @@ const linkedinOptions = {
 
 const linkedinCallback = async (accessToken, refreshToken, profile, done) => {
   try {
-
     const currentUser = await UsersQueries.getUserByEmail(profile.emails[0].value)
     console.log(currentUser);
     if (currentUser) {
@@ -27,6 +26,7 @@ const linkedinCallback = async (accessToken, refreshToken, profile, done) => {
         username: profile.displayName,
         provider: profile.provider,
         providerId: profile.id,
+        profileImage: profile.photos[0].value,
         email: profile.emails[0].value,
         lastLogin: date,
       };

@@ -22,7 +22,7 @@ export const UsersQueries = {
       .where({ email }).first().select('*')
       .join('profiles AS profile', 'profile.userId', 'user.userId');
     return user;
-  },
+  }, 
 
   getUserByEmail: async (email: string) => {
     const user = await knex('users').where({ email }).first();
