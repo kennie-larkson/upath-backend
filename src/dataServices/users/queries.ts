@@ -1,10 +1,12 @@
 import knex from '../../config/knex';
 
+
 export const UsersQueries = {
 
   getAllUserRecords: async () => {
     const users = await knex('users')
       .join('profiles', 'users.userId', '=', 'profiles.userId')
+      .join('educations', 'educations.profileId', '=', 'profiles.profileId')
       .select('*');
     return users
   },
@@ -13,6 +15,7 @@ export const UsersQueries = {
     const user = await knex.select('*')
       .from('users AS user')
       .join('profiles AS profile', 'profile.userId', 'user.userId')
+      .join('educations AS education', 'education.profileId', 'profile.profileId')
       .where('user.userId', '=', userId)
     return user;
   },
@@ -20,12 +23,23 @@ export const UsersQueries = {
   getUserRecordByEmail: async (email: string) => {
     const user = await knex('users AS user')
       .where({ email }).first().select('*')
-      .join('profiles AS profile', 'profile.userId', 'user.userId');
+      .join('profiles AS profile', 'profile.userId', 'user.userId')
+      .join('educations AS education', 'education.profileId', 'profile.profileId')
     return user;
-  }, 
+  },
+
+  getAllUsers: async () => {
+    const users = await knex('users');
+    return users
+  },
 
   getUserByEmail: async (email: string) => {
     const user = await knex('users').where({ email }).first();
+    return user;
+  },
+
+  getUserById: async (userId: number) => {
+    const user = await knex('users').where({ userId }).first();
     return user;
   },
 

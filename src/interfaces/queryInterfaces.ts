@@ -20,3 +20,13 @@ export interface ProfileQueryInterface {
   socialProfile?: string;
   preferredLanguage?: string;
 }
+
+export interface EducationQueryInterface {
+  educationId?: number;
+  profileId?: number
+  levelOfEducation?: string
+  university?: string
+  fieldOfStudy?: string
+  skills?: string
+  completionDate?: Date
+}

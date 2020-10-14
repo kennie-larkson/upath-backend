@@ -1,6 +1,6 @@
 import passport from "passport";
 import bcrypt from "bcrypt";
-import { UsersQueries } from "../endpoints/users/queries";
+import { UsersQueries } from "../dataServices/users/queries";
 import { validateData } from "./authHandlers";
 import LocalStrategy from "passport-local";
 
@@ -10,10 +10,10 @@ export const LocalPassport = passport.use(
       usernameField: "email",
       passwordField: "password",
     },
-    async (email:string, password:string, done: (arg0: any, arg1: boolean | any[]) => any) => {
+    async (email: string, password: string, done: (arg0: any, arg1: boolean | any[]) => any) => {
       try {
         const userInfo = await UsersQueries.getUserByEmail(email);
-       console.log(userInfo)
+        console.log(userInfo)
         if (!userInfo) {
           return done(null, false);
         }
@@ -21,12 +21,12 @@ export const LocalPassport = passport.use(
           password,
           userInfo.password
         );
-       
+
         if (!validatePassword) {
           return done(null, false);
         }
         const user = [userInfo];
-       
+
         return done(null, user);
       } catch (error) {
         console.log(error);
@@ -37,7 +37,7 @@ export const LocalPassport = passport.use(
 );
 
 export const Signup = async (
-  req: { body: { email: string;username: string; password: string } },
+  req: { body: { email: string; username: string; password: string } },
   res: any, next: any
 ) => {
   const newUser = {
@@ -46,12 +46,12 @@ export const Signup = async (
     password: req.body.password,
   };
   //valid user inputs
-  const validate = validateData(newUser);  
+  const validate = validateData(newUser);
   if (!validate.valid) return res.json(validate.errors);
 
   try {
     //check if user exists
-    const currentUser: any = await UsersQueries.getUserByEmail(newUser.email);    
+    const currentUser: any = await UsersQueries.getUserByEmail(newUser.email);
     if (currentUser) {
       console.log(currentUser)
       return res.status(400).json({ message: "User already exists" });
@@ -72,8 +72,8 @@ export const Signup = async (
     console.log(persistNewUser);
 
     //TODO: Add data in response?
-    return res.status(200).json({message: "User successfully created"});
-    
+    return res.status(200).json({ message: "User successfully created" });
+
   } catch (error) {
     return res.status(500).json({ error: "Something went wrong please try again" + error });
   }

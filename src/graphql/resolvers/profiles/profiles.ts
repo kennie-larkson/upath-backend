@@ -1,13 +1,13 @@
 import { ProfileQueryInterface } from '../../../interfaces/queryInterfaces';
 
-import { Queries } from '../../../endpoints/queries'
+import { Queries } from '../../../dataServices/queries'
 
 export const profiles = async () => {
   const profiles = await Queries.ProfilesQueries.getAllProfiles()
   return profiles
 }
 
-export const profile = async (root: any, args: { profileId: number }) => {
+export const profileById = async (root: any, args: { profileId: number }) => {
   const profile = await Queries.ProfilesQueries.getProfileById(args.profileId)
   return profile
 }

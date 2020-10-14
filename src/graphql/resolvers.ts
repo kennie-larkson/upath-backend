@@ -1,32 +1,19 @@
-import {
-  users,
-  userById,
-  userByEmail,
-  createUser,
-  /*
-  deleteUserById,
-  deleteUserByEmail,
-  */
-  editUserById,
-  editUserByEmail
-} from './resolvers/users/users';
-
-import {
-  profiles,
-  profile,
-  createProfile,
-  deleteProfileById,
-  editProfileById
-} from './resolvers/profiles/profiles'
-
+import { users, usersRecords, userById, userRecordById, userByEmail, userRecordByEmail, createUser, /* deleteUserById, deleteUserByEmail, */ editUserById, editUserByEmail } from './resolvers/users/users';
+import { profiles, profileById, createProfile, deleteProfileById, editProfileById } from './resolvers/profiles/profiles'
+import { educations, educationById, createEducation, deleteEducationById, editEducationById } from './resolvers/educations/educations'
 
 export const resolvers = {
   Query: {
     users,
+    usersRecords,
     userById,
+    userRecordById,
     userByEmail,
+    userRecordByEmail,
     profiles,
-    profile,
+    profileById,
+    educationById,
+    educations
   },
 
   Mutation: {
@@ -39,6 +26,9 @@ export const resolvers = {
     editUserByEmail,
     createProfile,
     deleteProfileById,
-    editProfileById
+    editProfileById,
+    createEducation,
+    deleteEducationById,
+    editEducationById
   }
 };

@@ -21,6 +21,12 @@ scalar Date
     birthDate: Date
     socialProfile: String
     preferredLanguage: String
+    educationId: ID
+    levelOfEducation: String
+    completionDate: Date
+    university: String
+    fieldOfStudy: String
+    skills: String
   }
 `;
 

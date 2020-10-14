@@ -1,7 +1,7 @@
 import passport from 'passport';
 import { Strategy } from 'passport-linkedin-oauth2';
 import 'dotenv/config';
-import { UsersQueries } from '../endpoints/users/queries';
+import { UsersQueries } from '../dataServices/users/queries';
 
 
 

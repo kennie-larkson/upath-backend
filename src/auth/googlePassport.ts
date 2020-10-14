@@ -2,7 +2,7 @@ import passport from 'passport';
 import GoogleStrategy from 'passport-google-oauth20';
 import 'dotenv/config';
 
-import { UsersQueries } from '../endpoints/users/queries';
+import { UsersQueries } from '../dataServices/users/queries';
 
 export const GooglePassport = [
   passport.use(new GoogleStrategy.Strategy({
@@ -12,7 +12,7 @@ export const GooglePassport = [
   }, async (accessToken, refreshToken, profile, done) => {
     try {
       const currentUser = await UsersQueries.getUserByEmail(profile.emails[0].value)
-      
+
       if (currentUser) {
         const { lastLogin, email } = currentUser as any
         let newCurrentUser = await UsersQueries.updateUserLastLoginByEmail(email, lastLogin)

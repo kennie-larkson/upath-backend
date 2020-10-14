@@ -63,5 +63,27 @@ export const mutations = gql`
       socialProfile: String
       preferredLanguage: String
     ): UpdateProfileResponse
+
+    createEducation(
+      profileId: ID
+      levelOfEducation: String
+      university: String
+      fieldOfStudy: String
+      skills: String
+      completionDate: Date
+    ): CreateEducationResponse
+
+    deleteEducationById(educationId: ID): DeleteEducationResponse
+
+    editEducationById(
+      profileId: ID
+      educationId: ID
+      levelOfEducation: String
+      university: String
+      fieldOfStudy: String
+      skills: String
+      completionDate: Date
+    ): UpdateEducationResponse
+
   }
 `;

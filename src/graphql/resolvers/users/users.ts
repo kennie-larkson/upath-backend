@@ -1,17 +1,35 @@
 import { UserQueryInterface } from '../../../interfaces/queryInterfaces';
 
-import { Queries } from '../../../endpoints/queries'
+import { Queries } from '../../../dataServices/queries'
 
 export const users = async () => {
+  const users = await Queries.UsersQueries.getAllUsers();
+  const newUsers = users.map(({ password, ...rest }) => rest)
+  return newUsers;
+}
+
+export const usersRecords = async () => {
   const users = await Queries.UsersQueries.getAllUserRecords();
-  return users;
+  const newUsers = users.map(({ password, ...rest }) => rest)
+  return newUsers;
 }
 
 export const userById = async (root: any, args: { userId: number }) => {
+  const user = await Queries.UsersQueries.getUserById(args.userId)
+  return user;
+}
+
+export const userRecordById = async (root: any, args: { userId: number }) => {
   const [user] = await Queries.UsersQueries.getUserRecordById(args.userId)
   return user;
 }
+
 export const userByEmail = async (root: any, args: { email: string }) => {
+  const user = await Queries.UsersQueries.getUserByEmail(args.email);
+  return user;
+}
+
+export const userRecordByEmail = async (root: any, args: { email: string }) => {
   const user = await Queries.UsersQueries.getUserRecordByEmail(args.email);
   return user;
 }
@@ -74,7 +92,10 @@ export const editUserById = async (root: any, payload: UserQueryInterface) => {
 
   const { provider, email, providerId, ...rest } = payload
 
-  const user = await Queries.UsersQueries.getUserRecordById(rest.userId)
+  const user = await Queries.UsersQueries.getUserById(rest.userId)
+
+  console.log('USER', user);
+
 
   if (!user) {
 
@@ -84,11 +105,11 @@ export const editUserById = async (root: any, payload: UserQueryInterface) => {
 
   } else {
 
-    const userResult: any = await Queries.UsersQueries.updateUserById(rest)
+    const [userResult]: any = await Queries.UsersQueries.updateUserById(rest)
 
-    const [updatedUser] = await Queries.UsersQueries.getUserRecordById(userResult[0]['userId'])
+    const updatedUser = await Queries.UsersQueries.getUserById(userResult['userId'])
 
-    const message = `User with, ${userResult[0]['email']} updated successfully`
+    const message = `User with, ${userResult['email']} updated successfully`
 
     return { message, updatedUser }
   }
@@ -99,7 +120,8 @@ export const editUserByEmail = async (root: any, payload: UserQueryInterface) =>
 
   const { userId, provider, providerId, ...rest } = payload as any
 
-  const user = await Queries.UsersQueries.getUserRecordByEmail(rest.email)
+  const user = await Queries.UsersQueries.getUserByEmail(rest.email)
+
 
   if (!user) {
 
@@ -109,11 +131,11 @@ export const editUserByEmail = async (root: any, payload: UserQueryInterface) =>
 
   } else {
 
-    const updatedResult: any = await Queries.UsersQueries.updateUserByEmail(rest)
+    const [updatedResult]: any = await Queries.UsersQueries.updateUserByEmail(rest)
 
-    const updatedUser = await Queries.UsersQueries.getUserRecordByEmail(updatedResult[0]['email'])
+    const updatedUser = await Queries.UsersQueries.getUserByEmail(updatedResult['email'])
 
-    const message = `User with, ${updatedResult[0]['email']} updated successfully`
+    const message = `User with, ${updatedResult['email']} updated successfully`
 
     return { message, updatedUser }
 
